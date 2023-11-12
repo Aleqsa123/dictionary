@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import Title from './components/Title.js';
 import Filter from './components/Filter.js';
 import LexiconForm from './components/LexiconForm.js';
 import Words from './components/Words.js';
 import Notification from './components/Notification.js';
+import Footer from './components/Footer.js';
 import service from './services/lexicon.js';
 
 const App = () => {
@@ -19,11 +21,11 @@ const App = () => {
   //Adds new word (geoword and ironword) to the lexicon
   const addWord = (event) => {
     event.preventDefault()
-    const newWord = /*{name: newName, number: newNumber}*/{geoword: newGeoWord, ironword: newIronWord}
+    const newWord = {geoword: newGeoWord, ironword: newIronWord}
     //find if entered name equals to existed name - caseInsensitive
     if (words.some((element) => element.geoword.toLowerCase() === newGeoWord.toLowerCase() )){
       //if new name exists, set window confirm
-      if (window.confirm( `${ newWord.geoword } is already added to phonebook, replace the translation with a new one?`)){
+      if (window.confirm( `${ newWord.geoword } is already added to dictionary, replace the translation with a new one?`)){
         //create new array for useState hook  
         const changedWord = words.map( (word) => {
             if (newWord.geoword.toLowerCase() === word.geoword.toLowerCase()) {
@@ -105,25 +107,21 @@ const App = () => {
 
   return (
     <div>
-      <h1>Georgian-Iron Dictionary</h1>
-
+      <Title />
       <Notification message = { message } />
       <Filter newSearch = { newSearch } handleSearch = { handleSearch }/>
 
       <h2> </h2>
       <Words wordsToShow = { wordsToShow } newSearch = { newSearch } />
 
-      <h2>add a new word meaning</h2>
       <LexiconForm newGeoWord = { newGeoWord } 
                   handleGeoWordChange = { handleGeoWordChange } 
                   newIronWord = { newIronWord } 
                   handleIronWordChange = { handleIronWordChange } 
                   addWord = { addWord } 
                   />
+      <Footer />
 
-      <footer>
-            © Created by <a href="https://www.facebook.com/aleksi.merebashvili/" target="_blank" rel="noreferrer">Aleksi Merebashvili</a>
-      </footer>
     </div>
   )
 }
